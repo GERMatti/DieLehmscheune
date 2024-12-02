@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+html,
+body {
+	@apply h-full overflow-hidden;
+}
+
+/* vintage theme */
+@font-face {
+	font-family: 'Agbalumo';
+	src: url('/fonts/Agbalumo-Regular.ttf');
+	font-display: swap;
+}
+@font-face {
+	font-family: 'PT Serif';
+	src: url('/fonts/PTSerif-Regular.ttf');
+	font-display: swap;
+}
+
+:root [data-theme='vintage'] {
+	--theme-font-family-heading: 'Agbalumo', serif;
+	--theme-font-family-base: 'PT Serif', serif;
+	--theme-rounded-base: 0.6rem;
+}
+
+:root [data-theme='seafoam'] {
+	--theme-font-family-base: 'Agbalumo', serif;
+	--theme-font-family-heading: 'Agbalumo', serif;
+}
+
+:root [data-theme='sahara'] {
+	--theme-font-family-base: 'Agbalumo', serif;
+	--theme-font-family-heading: 'Agbalumo', serif;
+}

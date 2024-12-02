@@ -1,0 +1,47 @@
+import { join } from "path";
+import type { Config } from "tailwindcss";
+import forms from "@tailwindcss/forms";
+import { skeleton } from "@skeletonlabs/tw-plugin";
+
+export default {
+  darkMode: "class",
+  content: [
+    "./src/**/*.{html,js,svelte,ts}",
+    join(
+      require.resolve("@skeletonlabs/skeleton"),
+      "../**/*.{html,js,svelte,ts}",
+    ),
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [
+    forms,
+    skeleton({
+      themes: {
+        preset: [
+          {
+            name: "vintage",
+            enhancements: true,
+          },
+          {
+            name: "skeleton",
+            enhancements: true,
+          },
+          {
+            name: "modern",
+            enhancements: true,
+          },
+          {
+            name: "seafoam",
+            enhancements: true,
+          },
+          {
+            name: "sahara",
+            enhancements: true,
+          },
+        ],
+      },
+    }),
+  ],
+} satisfies Config;
