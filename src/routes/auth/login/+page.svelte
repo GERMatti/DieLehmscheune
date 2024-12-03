@@ -1,0 +1,1 @@
+<a class="btn variant-filled-primary" href="/auth/login/github">Login</a>

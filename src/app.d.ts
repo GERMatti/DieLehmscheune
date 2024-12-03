@@ -13,7 +13,9 @@ import type { PoolClient } from "pg";
 declare global {
   namespace App {
     interface Locals {
-      dbconn: PoolClient;
+      dbconn: PoolClient,
+      user: import('lucia').User | null;
+      session: import('lucia').Session | null;
     }
   }
 }

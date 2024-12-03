@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Appointment } from "$lib/services/WorkshopService";
     import type { PageData } from "./$types"
     import { popup } from "@skeletonlabs/skeleton";
     import type {PopupSettings} from "@skeletonlabs/skeleton";
@@ -31,8 +32,8 @@
     function hasWorkshopOnDay(day: number, workshops: any[]) {
         return workshops.flatMap(workshop => {
             return workshop.appointments
-                .map((appointment, index) => {
-                    const [appointmentDay, appointmentMonth, appointmentYear] = appointment.formattedAppointmentDate.split('.').map(Number);
+                .map((appointment: Appointment, index: number) => {
+                    const [appointmentDay, appointmentMonth, appointmentYear] = appointment.formattedAppointmentDate?.split('.').map(Number) || [];
                     if (appointmentDay === day && appointmentMonth === calendarMonth && appointmentYear === calendarYear) {
                         return { workshop, appointmentIndex: index };
                     }
@@ -100,7 +101,7 @@
                                         <p class="text-base font-medium text-gray-900">
                                             {#each workshop.appointments as appointment}
                                                 {appointment.formattedAppointmentDate}
-                                                {appointment.formattedTime} - {calculateEndTime(appointment.formattedTime, appointment.duration)}
+                                                {appointment.formattedTime} - {appointment.formattedTime ? calculateEndTime(appointment.formattedTime, appointment.duration) : ''}
                                                 {#if appointment !== workshop.appointments[workshop.appointments.length - 1]}
                                                     {' & '}
                                                 {/if}
@@ -156,7 +157,7 @@
                                 {#each calendarArr as week}
                                     {#each week as day}
                                     {#if day.isCurrentMonth}
-                                        {#if hasWorkshopOnDay(day.day, workshops).length > 0}
+                                        {#if day.day !== null && hasWorkshopOnDay(day.day, workshops).length > 0}
                                                 {#each hasWorkshopOnDay(day.day, workshops) as {workshop, appointmentIndex}}
                                                     <div use:popup={getPopupClickSettings(workshop.workshopid)} class="relative flex xl:aspect-square max-xl:min-h-[60px] p-3.5 bg-white border-r border-b border-primary-200 transition-all duration-300 hover:bg-primary-50 cursor-pointer">
                                                         <span class="text-xs font-semibold">{day.day}</span>

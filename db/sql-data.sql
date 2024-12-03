@@ -54,6 +54,19 @@ CREATE TABLE PayPalOrders (
                               FOREIGN KEY (ParticipantID) REFERENCES Participants(ParticipantID) ON DELETE CASCADE
 );
 
+CREATE TABLE Users (
+                        id TEXT unique,
+                        providerid VARCHAR(255) PRIMARY KEY,
+                        name VARCHAR(255) NOT NULL,
+                        email VARCHAR(255) NOT NULL,
+                        isadmin BOOLEAN NOT NULL DEFAULT FALSE
+);
+CREATE TABLE user_session (
+                              id TEXT PRIMARY KEY,
+                              expires_at TIMESTAMPTZ NOT NULL,
+                              user_id TEXT NOT NULL REFERENCES Users(id)
+);
+
 INSERT INTO WorkshopCategories (CategoryName, AppointmentCount, Price)
 VALUES
     ('Erwachsenen', 2, 75.00),
