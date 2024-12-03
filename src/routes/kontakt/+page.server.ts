@@ -8,7 +8,7 @@ import { render } from "svelte-email";
 import Hello from "$lib/emails/Kontakt.svelte";
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
+/*const transporter = nodemailer.createTransport({
   host: "smtp.ethereal.email",
   port: 587,
   secureConnection: false,
@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
     user: "vena68@ethereal.email",
     pass: "kARvVaSQWke7zBJ7BT",
   },
-});
+});*/
 
 const schema = z.object({
   vorname: z.string().min(1, "Bitte geben Sie Ihren Vornamen ein."),

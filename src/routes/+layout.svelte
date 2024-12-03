@@ -40,6 +40,7 @@
 	import ModalComponentSeven from '$lib/modalComponents/paypalError.svelte';
 	import ModalComponentEight from '$lib/modalComponents/workshopFull.svelte';
 	import ModalComponentNine from '$lib/modalComponents/buttonError.svelte';
+	import ModalComponentTen from '$lib/modalComponents/successGeneral.svelte';
 
 	const modalRegistry: Record<string, ModalComponent> = {
 		// Set a unique modal ID, then pass the component reference
@@ -52,6 +53,7 @@
 		ModalComponentSeven: { ref: ModalComponentSeven },
 		ModalComponentEight: { ref: ModalComponentEight },
 		ModalComponentNine: { ref: ModalComponentNine },
+		ModalComponentTen: { ref: ModalComponentTen },
 		// ...
 	};
 
