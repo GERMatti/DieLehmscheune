@@ -11,8 +11,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const { MonthOffset } = await request.json();
   const currentDate = new Date();
   currentDate.setMonth(currentDate.getMonth() + MonthOffset);
-  console.log(currentDate);
-  console.log(MonthOffset);
 
   const calendarArr = generateCalendar(
     currentDate.getMonth() + 1,
@@ -24,7 +22,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   sortArrayOfWorkshops(workshops);
   formatDateFromWorkshop(workshops);
-  console.log({ calendarArr, workshops });
 
   return json({ calendarArr, workshops });
 };
