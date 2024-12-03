@@ -41,6 +41,12 @@
                         name="participantid"
                         bind:value={$form.participantid}
                 />
+                <input
+                        class="input hidden"
+                        type="text" placeholder="workshopId"
+                        name="workshopId"
+                        bind:value={$form.workshopId}
+                />
                 <label class="label">
                     <span>Name</span>
                     <input

@@ -1,7 +1,7 @@
 // src/routes/config/%5Bid%5D/+page.server.ts
 import type { PageServerLoad, Actions } from "./$types";
 import { ensureAdmin } from "$lib/server/auth";
-import {error, fail} from "@sveltejs/kit";
+import {error, fail, redirect} from "@sveltejs/kit";
 import { WorkshopService, type Participant } from "$lib/services/WorkshopService";
 import { z } from "zod";
 import { superValidate } from "sveltekit-superforms";
@@ -12,6 +12,7 @@ const schema = z.object({
  fullname: z.string(),
  email: z.string(),
  ischild: z.boolean(),
+ workshopId: z.number(),
 });
 
 export const load: PageServerLoad = async ({ params, locals }) => {
@@ -28,11 +29,12 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   fullname: z.string().default(participant.fullname),
   email: z.string().default(participant.email),
   ischild: z.boolean().default(participant.ischild),
+  workshopId: z.number().default(Number(params.id)), // Security risk, but we trust the User, because he is an Admin
  });
 
  const form = await superValidate(zod(schemaDefault));
 
- return { form, message: null, workshopId: params.id };
+ return { form, message: null };
 };
 
 export const actions: Actions = {
@@ -68,6 +70,6 @@ export const actions: Actions = {
    }
   }
 
-  return { success: true };
+  redirect(300, `/config/${form.data.workshopId}`);
  }
 };

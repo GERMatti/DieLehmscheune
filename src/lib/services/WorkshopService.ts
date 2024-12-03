@@ -39,6 +39,7 @@ export interface Participant {
 export interface WorkshopCategory {
   categoryid: number;
   categoryname: string;
+  appointmentcount: number;
 }
 
 export class WorkshopService {
@@ -47,6 +48,35 @@ export class WorkshopService {
   constructor(dbClient: PoolClient) {
     this.dbClient = dbClient;
   }
+
+  async deleteWorkshop(workshopId: number): Promise<number> {
+    try {
+      await this.dbClient.query(
+        `DELETE FROM Workshops
+         WHERE WorkshopID = $1`,
+        [workshopId]
+      );
+      return 200;
+    } catch (error) {
+      console.error("Error deleting workshop:", error);
+      return 500;
+    }
+  }
+
+  async createWorkshop(title: string, description: string, categoryid:number, maxparticipants:number): Promise<number> {
+    try {
+      const result = await this.dbClient.query(
+          `INSERT INTO Workshops (Title, Description, CategoryID, MaxParticipants)
+           VALUES ($1, $2, $3, $4)
+          RETURNING WorkshopID`,
+          [title, description, categoryid, maxparticipants]
+      );
+      return result.rows[0].workshopid;
+    } catch (error) {
+      console.error("Error creating workshop:", error);
+      return 500;
+  }
+    }
 
   async getWorkshopById(id: number): Promise<Workshop | undefined> {
     try {
@@ -106,6 +136,26 @@ export class WorkshopService {
       console.error("Error fetching all workshops:", error);
       return [];
     }
+  }
+
+  async getWorkshopCatoegoryById(workshopId: number): Promise<number | undefined> {
+      try {
+          const categoryResult = await this.dbClient.query(
+              `SELECT categoryid
+               FROM workshops
+               WHERE workshopid = $1`,
+              [workshopId]
+          );
+
+          if (categoryResult.rows.length === 0) {
+              return undefined;
+          }
+
+          return categoryResult.rows[0].categoryid;
+      } catch (error) {
+          console.error("Error fetching workshop category by ID:", error);
+          return undefined;
+      }
   }
 
   async getWorkshopPrice(categoryid: number): Promise<number | unknown> {
@@ -263,6 +313,39 @@ export class WorkshopService {
         return 200;
         } catch (error) {
         console.error("Error deleting slot:", error);
+        return 500;
+        }
+    }
+    async getCategoryById(categoryId: number): Promise<WorkshopCategory | undefined> {
+        try {
+        const categoryResult = await this.dbClient.query(
+            `SELECT *
+             FROM WorkshopCategories
+             WHERE CategoryID = $1`,
+            [categoryId]
+        );
+        if (categoryResult.rows.length === 0) {
+            return undefined;
+        }
+        return categoryResult.rows[0];
+        } catch (error) {
+        console.error("Error fetching category by ID:", error);
+        return undefined;
+        }
+    }
+
+    async createAppointments(appointments: Appointment[]): Promise<number> {
+        try {
+        for (const appointment of appointments) {
+            await this.dbClient.query(
+                `INSERT INTO Appointments (WorkshopID, Duration, AppointmentDate)
+                 VALUES ($1, $2, $3)`,
+                [appointment.workshopid, appointment.duration, appointment.appointmentdate]
+            );
+        }
+        return 200;
+        } catch (error) {
+        console.error("Error creating appointments:", error);
         return 500;
         }
     }

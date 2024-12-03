@@ -17,77 +17,15 @@
     };
 
     export let data: PageData
-    let participants: Participant[] = data.participants;
-    let workshop: Workshop = data.workshop;
 
     let { form, enhance, errors, message} = superForm(data.form)
     let categoryNamesArray = data.categoryNamesArray;
 
-    let buttonVisible = false;
-    onMount(() => {
-        if (workshop.maxparticipants > participants.length) {
-            buttonVisible = true;
-        }
-    });
-
-    async function deleteWorkshop(){
-        const response = await fetch(`/api/workshops/deleteWorkshop`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                workshopid: workshop.workshopid
-            })
-        });
-        if (response.ok && response.status === 200) {
-            modalStore.trigger(modalSuccess);
-            await goto(`/config`);
-        } else {
-            alert('error');
-        }
-    }
-
 </script>
 <div class="flex flex-col md:flex-row items-center justify-center max-sm:mx-6 ">
     <div class="flex flex-col md:flex-row md:space-x-20 mt-12">
-        <div class="table-container max-w-2xl rounded-xl">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Bearbeiten</th>
-                </tr>
-                </thead>
-                <tbody>
-                {#each participants as participant}
-                    <tr>
-                            <td>{participant.fullname}</td>
-                            <td>{participant.email}</td>
-                            <td><button class="btn variant-soft" on:click={() => goto(`/config/${workshop.workshopid}/${participant.participantid}`)}>Bearbeiten</button></td>
-                    </tr>
-                {/each}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="1">AnzahlTeilnehmer</th>
-                        <td>{participants.length}</td>
-                    </tr>
-                </tfoot>
-            </table>
-            {#if buttonVisible}
-            <a class="btn variant-filled-primary mt-2 w-full" href="/config/{data.workshop.workshopid}/addUser">Teilnehmer Hinzufügen</a>
-            {/if}
-        </div>
         <div class="bg-surface-200 rounded-xl p-2 md:min-w-96 max-sm:mt-8">
             <form method="POST" use:enhance>
-                <input
-                        class="input hidden"
-                        type="text" placeholder="id"
-                        name="id"
-                        bind:value={$form.id}
-                />
                 <label class="label">
                     <span>Name</span>
                     <input
@@ -136,7 +74,6 @@
                 </label>
                 <button class="btn variant-filled-primary mt-2 w-full">Submit</button>
             </form>
-            <button class="btn variant-filled-error mt-2 w-full" on:click={deleteWorkshop}>Aus Workshop entfernen</button>
         </div>
     </div>
 </div>

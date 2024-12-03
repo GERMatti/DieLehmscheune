@@ -2,6 +2,7 @@
     import type { Workshop } from "$lib/services/WorkshopService";
     import type { PageData } from "./$types"
     import {getModalStore, type ModalSettings} from '@skeletonlabs/skeleton';
+    import {goto} from "$app/navigation";
 
 
     const modalStore = getModalStore();
@@ -46,5 +47,6 @@
             </div>
         {/each}
         </dl>
+        <button class="btn variant-filled-success w-full mt-4" on:click={() => goto(`/config/createWorkshop`)}>Neuen Workshop hinzufügen</button>
     </div>
 </div>
