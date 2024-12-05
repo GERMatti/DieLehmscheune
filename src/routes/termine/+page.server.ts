@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
   const currentDate = new Date();
   currentDate.setMonth(currentDate.getMonth() + monthOffset);
 
-  let calendarArr = generateCalendar(
+  const calendarArr = generateCalendar(
     new Date().getMonth() + 1,
     new Date().getFullYear(),
   );

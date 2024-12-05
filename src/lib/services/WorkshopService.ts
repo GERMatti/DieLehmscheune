@@ -387,7 +387,9 @@ export class WorkshopService {
       return 500;
     }
   }
-  async getAllAppointmentsFromWorkshop(workshopId: number): Promise<Appointment[]> {
+  async getAllAppointmentsFromWorkshop(
+    workshopId: number,
+  ): Promise<Appointment[]> {
     try {
       const appointmentsResult = await this.dbClient.query(
         `SELECT *
@@ -408,7 +410,11 @@ export class WorkshopService {
           `UPDATE Appointments
                SET Duration = $1, AppointmentDate = $2
                WHERE AppointmentID = $3`,
-          [appointment.duration, appointment.appointmentdate, appointment.appointmentid],
+          [
+            appointment.duration,
+            appointment.appointmentdate,
+            appointment.appointmentid,
+          ],
         );
       }
       return 200;
@@ -417,7 +423,11 @@ export class WorkshopService {
       return 500;
     }
   }
-  async createCategory(categoryname: string, price: number, appointmentcount: number): Promise<number> {
+  async createCategory(
+    categoryname: string,
+    price: number,
+    appointmentcount: number,
+  ): Promise<number> {
     try {
       await this.dbClient.query(
         `INSERT INTO WorkshopCategories (CategoryName, Price, AppointmentCount)
@@ -430,7 +440,12 @@ export class WorkshopService {
       return 500;
     }
   }
-  async updateCategory(categoryid:number,categoryname:string ,categoryprice:number, categoryappointmentcount: number): Promise<number> {
+  async updateCategory(
+    categoryid: number,
+    categoryname: string,
+    categoryprice: number,
+    categoryappointmentcount: number,
+  ): Promise<number> {
     try {
       await this.dbClient.query(
         `UPDATE WorkshopCategories

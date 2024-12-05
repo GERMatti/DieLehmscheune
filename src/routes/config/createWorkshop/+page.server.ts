@@ -2,11 +2,13 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { ensureAdmin } from "$lib/server/auth";
 import { error, fail, redirect } from "@sveltejs/kit";
-import {type Appointment, type Workshop, WorkshopService} from "$lib/services/WorkshopService";
+import {
+  type Appointment,
+  WorkshopService,
+} from "$lib/services/WorkshopService";
 import { z } from "zod";
-import { message, superValidate } from "sveltekit-superforms";
+import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
-import { goto } from "$app/navigation";
 
 const schema = z.object({
   title: z.string(),
@@ -15,7 +17,7 @@ const schema = z.object({
   maxparticipants: z.number().positive(),
 });
 
-export const load: PageServerLoad = async ({ params, locals }) => {
+export const load: PageServerLoad = async ({ locals }) => {
   ensureAdmin(locals);
   const workshopService = new WorkshopService(locals.dbconn);
   const categories = await workshopService.getAllCategories();
@@ -67,10 +69,12 @@ export const actions: Actions = {
     }
     const category = await workshopService.getCategoryById(categoryid);
     if (!category) {
-      return fail (404);
+      return fail(404);
     }
     // Set default appointments based on category.appointmentcount
-    const defaultAppointments: Appointment[] = Array.from({ length: category.appointmentcount }, () => ({
+    const defaultAppointments: Appointment[] = Array.from({
+      length: category.appointmentcount,
+    }, () => ({
       appointmentid: 0, // 0 is a placeholder for the database
       workshopid: workshopId as number,
       appointmentdate: new Date(), // Placeholder current date

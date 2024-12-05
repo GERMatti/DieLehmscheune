@@ -2,7 +2,7 @@ import { env } from "$env/dynamic/private";
 import { PUBLIC_API_CLIENT_ID } from "$env/static/public";
 import axios from "axios";
 
-export let PRIVATE_ACCESS_TOKEN = ''
+export let PRIVATE_ACCESS_TOKEN = "";
 
 export async function refreshPayPalToken() {
   console.log("Refreshing PayPal token...");

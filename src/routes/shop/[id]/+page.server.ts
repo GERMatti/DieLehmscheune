@@ -1,6 +1,5 @@
 import type { PageServerLoad } from "./$types";
 import { type Workshop, WorkshopService } from "$lib/services/WorkshopService";
-import { PaypalService } from "$lib/services/PaypalService";
 
 export const load: PageServerLoad = async ({ params, locals }) => {
   const workshopService = new WorkshopService(locals.dbconn);

@@ -1,4 +1,4 @@
-import {type Appointment, type Workshop} from "$lib/services/WorkshopService";
+import { type Workshop } from "$lib/services/WorkshopService";
 
 function getMonthName(month: number): string {
   const monthNames = [
@@ -56,7 +56,7 @@ function generateCalendar(month: number, year: number) {
     }
     calendarArr.push(week);
   }
-  let MonthName = getMonthName(month);
+  const MonthName = getMonthName(month);
   return { year, monthName: MonthName, month: month, calendarArr };
 }
 

@@ -1,11 +1,7 @@
 <script lang="ts">
     import type { PageData } from "./$types"
-    import SuperDebug, { superForm } from "sveltekit-superforms";
+    import { superForm } from "sveltekit-superforms";
     import {getModalStore, type ModalSettings} from '@skeletonlabs/skeleton';
-    import type {Participant, Workshop} from "$lib/services/WorkshopService";
-    import {redirect} from "@sveltejs/kit";
-    import {onMount} from "svelte";
-    import {goto} from "$app/navigation";
 
     const modalStore = getModalStore();
 
@@ -18,7 +14,7 @@
 
     export let data: PageData
 
-    let { form, enhance, errors, message} = superForm(data.form)
+    let { form, enhance, errors, _message} = superForm(data.form)
     let categoryNamesArray = data.categoryNamesArray;
 
 </script>
@@ -77,6 +73,6 @@
         </div>
     </div>
 </div>
-{#if $message}
+{#if $_message}
     <div class="hidden"> {modalStore.trigger(modalSuccess)}</div>
 {/if}

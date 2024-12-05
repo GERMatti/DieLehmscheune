@@ -1,7 +1,7 @@
 // src/routes/config/%5Bid%5D/+page.server.ts
 import type { Actions, PageServerLoad } from "./$types";
 import { ensureAdmin } from "$lib/server/auth";
-import {fail, redirect} from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import {
   type Appointment,
   WorkshopService,
@@ -13,15 +13,14 @@ import { zod } from "sveltekit-superforms/adapters";
 function generateFormSchema(appointmentCount: number) {
   return z.object({
     appointments: z.array(
-        z.object({
-          date: z.string().min(10).max(10),
-          time: z.string().min(5, "24 stundenformat").max(5, "24 stundenformat"),
-          duration: z.number().int().positive("Number must be positive"),
-        })
+      z.object({
+        date: z.string().min(10).max(10),
+        time: z.string().min(5, "24 stundenformat").max(5, "24 stundenformat"),
+        duration: z.number().int().positive("Number must be positive"),
+      }),
     ).length(appointmentCount),
   });
 }
-
 
 export const load: PageServerLoad = async ({ params, locals }) => {
   ensureAdmin(locals);
@@ -49,7 +48,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   const form = await superValidate(initialData, zod(formSchema));
 
   return { form, category };
-}
+};
 
 export const actions: Actions = {
   default: async ({ request, locals, params }) => {
@@ -66,7 +65,9 @@ export const actions: Actions = {
       return fail(404);
     }
 
-    const form = await superValidate(request, zod(generateFormSchema(category.appointmentcount)),
+    const form = await superValidate(
+      request,
+      zod(generateFormSchema(category.appointmentcount)),
     );
     if (!form.valid) {
       return fail(400, { form });
@@ -76,9 +77,7 @@ export const actions: Actions = {
         appointmentid: 0, // not needed
         workshopid: Number(params.id),
         appointmentdate: new Date(
-          `${
-            appointment.date.split("T")[0]
-          }T${appointment.time}:00`,
+          `${appointment.date.split("T")[0]}T${appointment.time}:00`,
         ),
         duration: appointment.duration,
       }),

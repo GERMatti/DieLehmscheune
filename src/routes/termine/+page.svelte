@@ -6,9 +6,9 @@
 
     export let data: PageData
 
-    let calendarArr = data.calendarArr;
-    let calendarMonth = calendarArr.month;
-    let calendarYear = calendarArr.year;
+    $: calendarArr = data.calendarArr;
+    $: calendarMonth = calendarArr.month;
+    $: calendarYear = calendarArr.year;
     $: workshops = removeAllWorkshopsWithMoreThanOneAppointmentOnSameDay(data.workshops);
     let monthOffset = 0;
 

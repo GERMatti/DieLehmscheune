@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { type Workshop, WorkshopService } from "$lib/services/WorkshopService";
-import {refreshPayPalToken, PRIVATE_ACCESS_TOKEN} from "$lib/server/paypal";
+import { WorkshopService } from "$lib/services/WorkshopService";
+import { PRIVATE_ACCESS_TOKEN, refreshPayPalToken } from "$lib/server/paypal";
 
 async function createOrder() {
   const response = await fetch(
@@ -40,8 +40,8 @@ async function createOrder() {
   );
 
   if (!response.ok) {
-    if (response.status == 401){
-      await refreshPayPalToken()
+    if (response.status == 401) {
+      await refreshPayPalToken();
     }
     throw new Error(`HTTP error! status: ${response.status}`);
   }

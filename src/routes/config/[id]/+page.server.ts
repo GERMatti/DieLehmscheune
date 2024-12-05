@@ -27,7 +27,9 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     return fail(404);
   }
   const categories = await workshopService.getAllCategories();
-  const appointments = await workshopService.getAllAppointmentsFromWorkshop(Number(params.id));
+  const appointments = await workshopService.getAllAppointmentsFromWorkshop(
+    Number(params.id),
+  );
 
   const categoryNames = categories.map((category) => category.categoryname);
   const categoryNamesArray = [categoryNames[0], ...categoryNames.slice(1)];
@@ -44,7 +46,14 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
   const form = await superValidate(zod(schemaDefault));
 
-  return { participants, appointments, workshop, form, categoryNamesArray, message: null };
+  return {
+    participants,
+    appointments,
+    workshop,
+    form,
+    categoryNamesArray,
+    message: null,
+  };
 };
 
 export const actions: Actions = {

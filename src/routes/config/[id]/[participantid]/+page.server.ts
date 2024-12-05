@@ -1,9 +1,8 @@
 // src/routes/config/%5Bid%5D/+page.server.ts
 import type { Actions, PageServerLoad } from "./$types";
 import { ensureAdmin } from "$lib/server/auth";
-import { error, fail, redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import {
-  type Participant,
   WorkshopService,
 } from "$lib/services/WorkshopService";
 import { z } from "zod";
@@ -45,8 +44,8 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 export const actions: Actions = {
   default: async ({ request, locals }) => {
     const form = await superValidate(request, zod(schema));
-    if(!form.valid){
-        return fail(400, {form});
+    if (!form.valid) {
+      return fail(400, { form });
     }
 
     const workshopService = new WorkshopService(locals.dbconn);

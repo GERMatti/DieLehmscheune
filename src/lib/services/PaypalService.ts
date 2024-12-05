@@ -33,7 +33,7 @@ export class PaypalService {
     participantID: number,
   ): Promise<void> {
     // write the order to the database
-    const bookingResult = await this.dbClient.query(
+    const _bookingResult = await this.dbClient.query(
       `INSERT INTO PayPalOrders (PayPalOrderID, ParticipantID, OrderStatus)
             VALUES ($1, $2, $3)`,
       [capture.id, participantID, capture.status],
@@ -52,14 +52,14 @@ export class PaypalService {
       [participantID, workshopID],
     );
     if (checkForRegistration.rows.length > 0) {
-      const bookingResult = await this.dbClient.query(
+      const _bookingResult = await this.dbClient.query(
         `UPDATE Registrations
                  SET SlotCount = SlotCount + 1
                     WHERE ParticipantID = $1 AND WorkshopID = $2`,
         [participantID, workshopID],
       );
     } else {
-      const bookingResult = await this.dbClient.query(
+      const _bookingResult = await this.dbClient.query(
         `INSERT INTO Registrations (ParticipantID, WorkshopID)
                  VALUES ($1, $2)`,
         [participantID, workshopID],

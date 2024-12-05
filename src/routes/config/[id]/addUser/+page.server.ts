@@ -1,9 +1,8 @@
 // src/routes/config/%5Bid%5D/+page.server.ts
 import type { Actions, PageServerLoad } from "./$types";
 import { ensureAdmin } from "$lib/server/auth";
-import { error, fail, json, redirect } from "@sveltejs/kit";
+import { fail, json, redirect } from "@sveltejs/kit";
 import {
-  type Participant,
   WorkshopService,
 } from "$lib/services/WorkshopService";
 import { z } from "zod";

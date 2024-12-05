@@ -1,8 +1,7 @@
 <script lang="ts">
     import type { PageData } from "./$types"
-    import SuperDebug, { superForm } from "sveltekit-superforms";
+    import { superForm } from "sveltekit-superforms";
     import {getModalStore, type ModalSettings} from '@skeletonlabs/skeleton';
-    import type {Participant, Workshop} from "$lib/services/WorkshopService";
     import {goto} from "$app/navigation";
 
     const modalStore = getModalStore();
