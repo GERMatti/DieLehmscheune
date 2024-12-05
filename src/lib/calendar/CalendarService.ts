@@ -56,7 +56,7 @@ function generateCalendar(month: number, year: number) {
     }
     calendarArr.push(week);
   }
-  let MonthName = getMonthName(month);
+  const MonthName = getMonthName(month);
   return { year, monthName: MonthName, month: month, calendarArr };
 }
 
@@ -72,12 +72,14 @@ function formatDateFromWorkshop(workshops: Workshop[]) {
   workshops.forEach((workshop) => {
     workshop.appointments.forEach((appointment) => {
       const dateObj = new Date(appointment.appointmentdate);
-      appointment.formattedAppointmentDate = `${dateObj.getDate().toString().padStart(2, "0")}.${
-          (dateObj.getMonth() + 1).toString().padStart(2, "0")
+      appointment.formattedAppointmentDate = `${
+        dateObj.getDate().toString().padStart(2, "0")
+      }.${
+        (dateObj.getMonth() + 1).toString().padStart(2, "0")
       }.${dateObj.getFullYear()}`;
-      appointment.formattedTime = `${dateObj.getHours().toString().padStart(2, "0")}:${
-          dateObj.getMinutes().toString().padStart(2, "0")
-      }`;
+      appointment.formattedTime = `${
+        dateObj.getHours().toString().padStart(2, "0")
+      }:${dateObj.getMinutes().toString().padStart(2, "0")}`;
     });
   });
 }
