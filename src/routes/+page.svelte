@@ -1,9 +1,9 @@
 <body>
 	<!-- Hero -->
 	<section class="relative">
-		<div class="container flex flex-col-reverse lg:flex-row items-center gap-32 mt-14 lg:mt-28 mx-auto">
+		<div class="container flex flex-col lg:flex-row items-center gap-32 mt-14 lg:mt-28 mx-auto">
 			<!-- Content -->
-			<div class="flex flex-1 flex-col items-center lg:items-start">
+			<div class="flex flex-1 flex-col items-center lg:items-start max-sm:mx-4">
 				<h2 class="text-bookmark-blue text-3xl md:text-4 lg:text-5xl text-center lg:text-left mb-6">
 					Die Lehmscheune
 				</h2>
@@ -21,7 +21,7 @@
 				</div>
 			</div>
 			<!-- Image -->
-			<div class="flex justify-center flex-1 mb-10 md:mb-16 lg:mb-0 z-10">
+			<div class="flex justify-center flex-1 mb-10 md:mb-16 lg:mb-0 z-10 max-sm:mx-4">
 				<section class="grid grid-cols-2 md:grid-cols-4 gap-2">
 					<div class="grid gap-4">
 						<div>

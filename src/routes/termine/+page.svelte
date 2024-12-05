@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Appointment } from "$lib/services/WorkshopService";
+    import type {Appointment, Workshop} from "$lib/services/WorkshopService";
     import type { PageData } from "./$types"
     import { popup } from "@skeletonlabs/skeleton";
     import type {PopupSettings} from "@skeletonlabs/skeleton";
@@ -9,7 +9,7 @@
     let calendarArr = data.calendarArr;
     let calendarMonth = calendarArr.month;
     let calendarYear = calendarArr.year;
-    let workshops = data.workshops;
+    $: workshops = removeAllWorkshopsWithMoreThanOneAppointmentOnSameDay(data.workshops);
     let monthOffset = 0;
 
     const getPopupClickSettings = (workshopId: string): PopupSettings => ({
@@ -40,6 +40,20 @@
                     return null;
                 })
                 .filter(Boolean);
+        });
+    }
+
+    function removeAllWorkshopsWithMoreThanOneAppointmentOnSameDay(workshops: Workshop[]): Workshop[] {
+        return workshops.filter(workshop => {
+            const appointments = workshop.appointments;
+            const appointmentsOnSameDay = appointments.filter(appointment => {
+                const [appointmentDay, appointmentMonth, appointmentYear] = appointment.formattedAppointmentDate?.split('.').map(Number) || [];
+                return appointments.every(a => {
+                    const [aDay, aMonth, aYear] = a.formattedAppointmentDate?.split('.').map(Number) || [];
+                    return appointmentDay === aDay && appointmentMonth === aMonth && appointmentYear === aYear;
+                });
+            });
+            return appointmentsOnSameDay.length <= 1;
         });
     }
 
@@ -75,7 +89,7 @@
         try {
             const data = await response.json();
             calendarArr = data.calendarArr;
-            workshops = data.workshops;
+            $: workshops = removeAllWorkshopsWithMoreThanOneAppointmentOnSameDay(data.workshops);
             calendarMonth = calendarArr.month;
             calendarYear = calendarArr.year;
         } catch (error) {
@@ -94,30 +108,30 @@
                     <div class="flex gap-5 flex-col">
                         <!-- Side event -->
                          {#each workshops as workshop}
-                             <div class="p-6 rounded-xl bg-white">
-                                <div class="flex items-center justify-between mb-3">
-                                    <div class="flex items-center gap-2.5">
-                                        <span class={`w-2.5 h-2.5 rounded-full ${getWorkshopColorClass(workshop.categoryid)}`}></span>
-                                        <p class="text-base font-medium text-gray-900">
-                                            {#each workshop.appointments as appointment}
-                                                {appointment.formattedAppointmentDate}
-                                                {appointment.formattedTime} - {appointment.formattedTime ? calculateEndTime(appointment.formattedTime, appointment.duration) : ''}
-                                                {#if appointment !== workshop.appointments[workshop.appointments.length - 1]}
-                                                    {' & '}
-                                                {/if}
-                                            {/each}
-                                        </p>
+                                 <div class="p-6 rounded-xl bg-white">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center gap-2.5">
+                                            <span class={`w-2.5 h-2.5 rounded-full ${getWorkshopColorClass(workshop.categoryid)}`}></span>
+                                            <p class="text-base font-medium text-gray-900">
+                                                {#each workshop.appointments as appointment}
+                                                    {appointment.formattedAppointmentDate}
+                                                    {appointment.formattedTime} - {appointment.formattedTime ? calculateEndTime(appointment.formattedTime, appointment.duration) : ''}
+                                                    {#if appointment !== workshop.appointments[workshop.appointments.length - 1]}
+                                                        {' & '}
+                                                    {/if}
+                                                {/each}
+                                            </p>
+                                        </div>
                                     </div>
+                                    <h6 class="text-xl leading-8 font-semibold text-black mb-1">{workshop.title}</h6>
+                                    <p class="text-base font-normal text-gray-600">{workshop.description}</p>
+                                     <hr class="opacity-50 mt-3 mb-3">
+                                     <footer class="flex justify-between items-center mt-auto">
+                                         <div class="flex mx-auto">
+                                             <a class="btn btn-initial font-semibold" href="/shop/{workshop.workshopid}">Jetzt buchen</a>
+                                         </div>
+                                     </footer>
                                 </div>
-                                <h6 class="text-xl leading-8 font-semibold text-black mb-1">{workshop.title}</h6>
-                                <p class="text-base font-normal text-gray-600">{workshop.description}</p>
-                                 <hr class="opacity-50 mt-3 mb-3">
-                                 <footer class="flex justify-between items-center mt-auto">
-                                     <div class="flex mx-auto">
-                                         <a class="btn btn-initial font-semibold" href="/shop/{workshop.workshopid}">Jetzt buchen</a>
-                                     </div>
-                                 </footer>
-                            </div>
                          {/each}
                         <!-- Side event end -->
                     </div>
@@ -157,7 +171,7 @@
                                 {#each calendarArr as week}
                                     {#each week as day}
                                     {#if day.isCurrentMonth}
-                                        {#if day.day !== null && hasWorkshopOnDay(day.day, workshops).length > 0}
+                                        {#if day.day !== null && hasWorkshopOnDay(day.day, workshops).length > 0 }
                                                 {#each hasWorkshopOnDay(day.day, workshops) as {workshop, appointmentIndex}}
                                                     <div use:popup={getPopupClickSettings(workshop.workshopid)} class="relative flex xl:aspect-square max-xl:min-h-[60px] p-3.5 bg-white border-r border-b border-primary-200 transition-all duration-300 hover:bg-primary-50 cursor-pointer">
                                                         <span class="text-xs font-semibold">{day.day}</span>

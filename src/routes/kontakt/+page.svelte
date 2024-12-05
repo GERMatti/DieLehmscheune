@@ -10,12 +10,6 @@
 
     let { form, enhance, errors, message} = superForm(data.form)
 
-    const modalSuccess: ModalSettings = {
-        type: 'component',
-        // Data
-        component: 'ModalComponentFour',
-    };
-
 </script>
 <div class="mx-5 md:mx-96 mt-2 md:mt-40 flex flex-col md:flex-row md:space-x-80">
     <div class="md:max-w-4xl">

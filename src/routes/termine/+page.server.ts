@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import { WorkshopService, type Workshop } from "$lib/services/WorkshopService";
+import { type Workshop, WorkshopService } from "$lib/services/WorkshopService";
 import {
   formatDateFromWorkshop,
   generateCalendar,

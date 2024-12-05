@@ -14,9 +14,10 @@ function generateFormSchema(appointmentCount: number) {
   return z.object({
     appointments: z.array(
         z.object({
+          appointmentid: z.number().min(1),
           date: z.string().min(10).max(10),
           time: z.string().min(5, "24 stundenformat").max(5, "24 stundenformat"),
-          duration: z.number().int().positive("Number must be positive"),
+          duration: z.number().int().positive("Number must be positive").min(1),
         })
     ).length(appointmentCount),
   });
@@ -26,54 +27,38 @@ function generateFormSchema(appointmentCount: number) {
 export const load: PageServerLoad = async ({ params, locals }) => {
   ensureAdmin(locals);
   const workshopService = new WorkshopService(locals.dbconn);
-  const workshopCategoryId = await workshopService.getWorkshopCatoegoryById(
-    Number(params.id),
-  );
-  if (!workshopCategoryId) {
-    return fail(404);
-  }
 
-  const category = await workshopService.getCategoryById(workshopCategoryId);
-  if (!category) {
-    return fail(404);
-  }
-  const formSchema = generateFormSchema(category.appointmentcount);
+  const appoinments = await workshopService.getAllAppointmentsFromWorkshop(Number(params.id));
+
+  const formSchema = generateFormSchema(appoinments.length);
+
   const initialData = {
-    appointments: Array.from({ length: category.appointmentcount }, () => ({
-      date: "",
-      time: "",
-      duration: 0,
+    appointments: appoinments.map(appointment => ({
+      appointmentid: appointment.appointmentid,
+        date: new Date(appointment.appointmentdate.getTime() + (appointment.appointmentdate.getTimezoneOffset() + 120) * 60000).toISOString().split("T")[0],
+        time: new Date(appointment.appointmentdate.getTime() + (appointment.appointmentdate.getTimezoneOffset() + 120) * 60000).toISOString().split("T")[1].substring(0, 5),
+      duration: appointment.duration,
     })),
   };
 
   const form = await superValidate(initialData, zod(formSchema));
-
-  return { form, category };
+  console.log("time", form.data.appointments[0].time);
+  return { form };
 }
 
 export const actions: Actions = {
   default: async ({ request, locals, params }) => {
     const workshopService = new WorkshopService(locals.dbconn);
-    const workshopCategoryId = await workshopService.getWorkshopCatoegoryById(
-      Number(params.id),
-    );
-    if (!workshopCategoryId) {
-      return fail(404);
-    }
+    const appoinments = await workshopService.getAllAppointmentsFromWorkshop(Number(params.id));
 
-    const category = await workshopService.getCategoryById(workshopCategoryId);
-    if (!category) {
-      return fail(404);
-    }
-
-    const form = await superValidate(request, zod(generateFormSchema(category.appointmentcount)),
-    );
+    const form = await superValidate(request, zod(generateFormSchema(appoinments.length)));
     if (!form.valid) {
       return fail(400, { form });
     }
+
     const appointments: Appointment[] = form.data.appointments.map(
       (appointment) => ({
-        appointmentid: 0, // not needed
+        appointmentid: appointment.appointmentid, // needed for update
         workshopid: Number(params.id),
         appointmentdate: new Date(
           `${
@@ -83,8 +68,9 @@ export const actions: Actions = {
         duration: appointment.duration,
       }),
     );
-    await workshopService.createAppointments(appointments);
+    console.log(appointments[0].appointmentdate);
+    await workshopService.updateAppointments(appointments);
 
-    redirect(300, `/config/${params.id}`);
+    return redirect(300, `/config/${params.id}`);
   },
 };

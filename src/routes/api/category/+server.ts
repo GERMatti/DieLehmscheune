@@ -5,10 +5,10 @@ import { ensureAdmin } from "$lib/server/auth";
 
 export const DELETE: RequestHandler = async ({ request, locals }) => {
   ensureAdmin(locals);
-  const { workshopid } = await request.json();
-  console.log("Delete Workshop with ID: " + workshopid);
+  const { categoryid } = await request.json();
+  console.log("Delete Workshop with ID: " + categoryid);
 
   const workshopService = new WorkshopService(locals.dbconn);
-  const statusCode = await workshopService.deleteWorkshop(workshopid);
+  const statusCode = await workshopService.deleteCategory(categoryid);
   return json({ status: statusCode });
 };
