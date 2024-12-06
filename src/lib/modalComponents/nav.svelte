@@ -25,20 +25,15 @@
             <a
                     class="btn btn-initial text-2xl"
                     href="/kurse"
+                    data-sveltekit-reload
                     on:click={() => (modalStore.close())}
             >
                 Kursangebote
             </a>
             <a
                     class="btn btn-initial text-2xl"
-                    href="/termine"
-                    on:click={() => (modalStore.close())}
-            >
-                Termine
-            </a>
-            <a
-                    class="btn btn-initial text-2xl"
                     href="/about"
+                    data-sveltekit-reload
                     on:click={() => (modalStore.close())}
             >
                 Über mich
@@ -46,16 +41,18 @@
             <a
                     class="btn btn-initial text-2xl"
                     href="/kontakt"
+                    data-sveltekit-reload
                     on:click={() => (modalStore.close())}
             >
                 Kontakt
             </a>
             <a
                     class="btn variant-filled-primary text-2xl"
-                    href="/shop"
+                    href="/termine"
+                    data-sveltekit-reload
                     on:click={() => (modalStore.close())}
             >
-                Jetzt Kurse buchen!
+                Termine
             </a>
         </div>
     </div>

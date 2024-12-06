@@ -53,7 +53,7 @@
                     </div>
                 {/if}
                 <label class="label">
-                    <span>Maximale Teilnehmer</span>
+                    <span>Termin Anzahl</span>
                     <input bind:value={$form.appointmentcount} type="number" class="input {$errors.appointmentcount ? 'input-error' : ''}" name="appointmentcount"/>
                 </label>
                 {#if $errors.appointmentcount}

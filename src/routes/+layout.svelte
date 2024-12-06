@@ -66,6 +66,9 @@
 		// Data
 		component: 'ModalComponentFive',
 	};
+
+	import CookieBanner from '$lib/CookieBanner.svelte';
+
 </script>
 
 <Modal components={modalRegistry} />
@@ -75,7 +78,7 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<a class="flex" href="/">
+				<a class="flex" href="/" data-sveltekit-reload>
 					<img 
 						class = "w-12 h-12 md:w-16 md:h-16 place-content-center"
 						src="/images/LogoNoBg.png" 
@@ -88,32 +91,30 @@
 					<a
 						class="btn btn-initial"
 						href="/kurse"
+						data-sveltekit-reload
 					>
 						Kursangebote
 					</a>
 					<a
 						class="btn btn-initial"
-						href="/termine"
-					>
-						Termine
-					</a>
-					<a
-						class="btn btn-initial"
 						href="/about"
+						data-sveltekit-reload
 					>
 						Über mich
 					</a>
 					<a
 						class="btn btn-initial"
 						href="/kontakt"
+						data-sveltekit-reload
 					>
 						Kontakt
 					</a>
 					<a
-						class="btn variant-filled-primary"
-						href="/shop"
+							class="btn variant-filled-primary"
+							href="/termine"
+							data-sveltekit-reload
 					>
-						Jetzt Kurse buchen!
+						Termine
 					</a>
 				</div>
 				<a class="md:hidden" on:click={() => modalStore.trigger(modalNav)}>
@@ -126,24 +127,38 @@
 	</svelte:fragment>
 	<!-- Page Route Content -->
 	<slot />
-
 	<svelte:fragment slot="footer">
+		<CookieBanner />
 		<div class="flex justify-center items-center space-x-2 bg">
 			<a
 				class="btn btn-initial"
 				href="/impressum"
-				target="_blank"
-				rel="noreferrer"
 			>
 				Impressum
 			</a>
 			<a
 				class="btn btn-initial"
 				href="/datenschutz"
-				target="_blank"
-				rel="noreferrer"
 			>
 				Datenschutz
+			</a>
+			<a
+					class="btn btn-initial"
+					href="/agbs"
+			>
+				AGBs
+			</a>
+			<a
+					class="btn btn-initial"
+					href="/widerrufsbelehrung-und-formular"
+			>
+				Widerrufsbelehrung und -formular
+			</a>
+			<a
+					class="btn btn-initial"
+					href="/kontakt"
+			>
+				Kontakt
 			</a>
 		</div>
 	</svelte:fragment>

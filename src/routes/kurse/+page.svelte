@@ -58,11 +58,11 @@
                     </article>
                 </div>
                 <hr class="opacity-50">
-                <footer class="p-4 flex justify-between items-center mt-auto">
-                    <div class="flex space-x-4">
+                <footer class="flex justify-between items-center md:p-4">
+                    <div class="">
                         <a class="btn btn-initial" href="#" on:click={() => modalStore.trigger(modalErwachsenen)}>Mehr erfahren</a>
                     </div>
-                    <div class="flex space-x-4">
+                    <div class="">
                         <a class="btn btn-initial" href="/termine">Jetzt Termin finden!</a>
                     </div>
                 </footer>
@@ -97,11 +97,11 @@
                     </article>
                 </div>
                 <hr class="opacity-50">
-                <footer class="p-4 flex justify-between items-center mt-auto">
-                    <div class="flex space-x-4">
+                <footer class="flex justify-between items-center md:p-4">
+                    <div class="">
                         <a class="btn btn-initial" href="#" on:click={() => modalStore.trigger(modalKinder)}>Mehr erfahren</a>
                     </div>
-                    <div class="flex space-x-4">
+                    <div class="">
                         <a class="btn btn-initial" href="/termine">Jetzt Termin finden!</a>
                     </div>
                 </footer>
@@ -124,11 +124,11 @@
                     </article>
                 </div>
                 <hr class="opacity-50">
-                <footer class="p-4 flex justify-between items-center mt-auto">
-                    <div class="flex space-x-4">
+                <footer class="flex justify-between items-center md:p-4">
+                    <div class="">
                         <a class="btn btn-initial" href="#" on:click={() => modalStore.trigger(modalIndividuelle)}>Mehr erfahren</a>
                     </div>
-                    <div class="flex space-x-4">
+                    <div class="">
                         <a class="btn btn-initial" href="/termine">Jetzt Termin finden!</a>
                     </div>
                 </footer>
