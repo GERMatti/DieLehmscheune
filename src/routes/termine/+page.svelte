@@ -3,6 +3,7 @@
     import type { PageData } from "./$types"
     import { popup } from "@skeletonlabs/skeleton";
     import type {PopupSettings} from "@skeletonlabs/skeleton";
+    import {generateColor} from "$lib/utils/colorUtils";
 
     export let data: PageData
 
@@ -30,12 +31,13 @@
     }
 
     function hasWorkshopOnDay(day: number, workshops: any[]) {
+        let index = 0;
         return workshops.flatMap(workshop => {
             return workshop.appointments
-                .map((appointment: Appointment, index: number) => {
+                .map((appointment: Appointment, appointmentIndex: number) => {
                     const [appointmentDay, appointmentMonth, appointmentYear] = appointment.formattedAppointmentDate?.split('.').map(Number) || [];
                     if (appointmentDay === day && appointmentMonth === calendarMonth && appointmentYear === calendarYear) {
-                        return { workshop, appointmentIndex: index };
+                        return { workshop, appointmentIndex, index: index++ };
                     }
                     return null;
                 })
@@ -55,19 +57,6 @@
             });
             return appointmentsOnSameDay.length <= 1;
         });
-    }
-
-    const workshopColor: Record<string, string> = {
-        1: 'purple',
-        2: 'emerald',
-        3: 'sky',
-        4: 'amber',
-        'default': 'gray'
-    };
-
-    function getWorkshopColorClass(categoryid: number): string {
-        const color = workshopColor[categoryid] || workshopColor.default;
-        return `bg-${color}-500`;
     }
 
     async function updateCalendar(monthOffsetChange: number) {
@@ -90,6 +79,9 @@
             const data = await response.json();
             calendarArr = data.calendarArr;
             $: workshops = removeAllWorkshopsWithMoreThanOneAppointmentOnSameDay(data.workshops);
+            workshops.forEach((workshop: Workshop, index:number) => {
+                workshop.colorClass = `bg-${generateColor(index)}-500`;
+            });
             calendarMonth = calendarArr.month;
             calendarYear = calendarArr.year;
         } catch (error) {
@@ -107,11 +99,11 @@
                     <p class="text-lg text-gray-600 mb-8">Verpasse jetzt keinen mehr!</p>
                     <div class="flex gap-5 flex-col">
                         <!-- Side event -->
-                         {#each workshops as workshop}
+                         {#each workshops as workshop, index}
                                  <div class="p-6 rounded-xl bg-white">
                                     <div class="flex items-center justify-between mb-3">
                                         <div class="flex items-center gap-2.5">
-                                            <span class={`w-2.5 h-2.5 rounded-full ${getWorkshopColorClass(workshop.categoryid)}`}></span>
+                                            <span class={`w-2.5 h-2.5 rounded-full ${workshop.colorClass}`}></span>
                                             <p class="text-base font-medium text-gray-900">
                                                 {#each workshop.appointments as appointment}
                                                     {appointment.formattedAppointmentDate}
@@ -172,11 +164,11 @@
                                     {#each week as day}
                                     {#if day.isCurrentMonth}
                                         {#if day.day !== null && hasWorkshopOnDay(day.day, workshops).length > 0 }
-                                                {#each hasWorkshopOnDay(day.day, workshops) as {workshop, appointmentIndex}}
+                                                {#each hasWorkshopOnDay(day.day, workshops) as {workshop, appointmentIndex, index}}
                                                     <div use:popup={getPopupClickSettings(workshop.workshopid)} class="relative flex xl:aspect-square max-xl:min-h-[60px] p-3.5 bg-white border-r border-b border-primary-200 transition-all duration-300 hover:bg-primary-50 cursor-pointer">
                                                         <span class="text-xs font-semibold">{day.day}</span>
                                                     <div class="absolute bottom-1 left-7 p-1.5 xl:px-2 h-max rounded-full">
-                                                        <p class={`w-2 h-2 rounded-full ${getWorkshopColorClass(workshop.categoryid)}`}></p>
+                                                        <p class={`h-3 max-md:h-2 w-3 max-md:w-2 rounded-full ${workshop.colorClass}`}></p>
                                                     </div>
                                                     <div class="card p-4 z-10" data-popup="popupClick-{workshop.workshopid}">
                                                         <p class="text-xs font-medium mb-px">{workshop.title}</p>

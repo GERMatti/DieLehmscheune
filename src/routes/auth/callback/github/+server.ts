@@ -19,6 +19,10 @@ export async function GET(event: RequestEvent) {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    if (!githubUserResponse.ok) {
+      console.log("GitHub user response not ok");
+      return new Response(null, { status: 500 });
+    }
     const githubUser: GitHubUser = await githubUserResponse.json();
     const gitHubOAuthService = new GitHubOAuthService(event.locals.dbconn);
     const existingUser = await gitHubOAuthService.getUserByGitHubId(
@@ -51,7 +55,7 @@ export async function GET(event: RequestEvent) {
       }
       const userId: string = await gitHubOAuthService.createUser(
         githubUser.id,
-        githubUser.name,
+        githubUser.login,
         primaryEmail.email,
       );
 

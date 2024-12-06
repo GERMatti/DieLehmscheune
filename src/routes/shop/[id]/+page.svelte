@@ -108,23 +108,23 @@
     let slots = Array.from({ length: Number(data.remainingSlots) }, (_, i) => i + 1);
 </script>
 
-<div class="flex justify-center items-center h-1/2 my-80">
-    <div class="max-w-7xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 h-full -mt-5 xl:-mt-8 pb-10 bg-gray-100 p-4">
+<div class="flex flex-col md:flex-row justify-center items-center h-auto md:h-1/2 max-md:mt-16 max-md:mx-8 md:my-80">
+    <div class="max-w-7xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 h-full -mt-5 xl:-mt-8 pb-10 bg-gray-100 p-4 rounded-xl">
         <div class="h-full xl:col-span-2">
             <img class="w-full h-full object-cover" src="/images/bowl.jpeg" alt="KursBild">
         </div>
         <div class="h-full w-full md:col-span-2 xl:col-span-3 xl:p-14 flex flex-col gap-6 justify-center">
             <div class="flex flex-col gap-5">
-                <h2 class="text-4xl font-semibold">{workshop.title}</h2>
-                <p class="text-xl font-semibold">{data.price} €</p>
-                <p class=" text-md font-semibold">Freie Plätze: {data.remainingSlots}</p>
-                <p class="text-base text-gray-600">{workshop.description}</p>
-                <p class="text-base text-red-500">Beim onlinekauf über Paypal fallen extra Gebühren an für die Paypal Nutzung!</p>
+                <h2 class="text-2xl md:text-4xl font-semibold">{workshop.title}</h2>
+                <p class="text-lg md:text-xl font-semibold">{data.price} €</p>
+                <p class=" text-md md:text-lg font-semibold">Freie Plätze: {data.remainingSlots}</p>
+                <p class="text-sm md:text-base text-gray-600">{workshop.description}</p>
+                <p class="text-sm md:text-base text-red-500">Beim onlinekauf über Paypal fallen extra Gebühren an für die Paypal Nutzung!</p>
                 <div class="space-y-2">
                     {#if workshop.categoryname.toLowerCase().includes("kinder")}
                         <label class="flex items-center space-x-2">
                             <input class="checkbox" type="checkbox" on:change="{() => { isCheckboxChecked = !isCheckboxChecked; }}"/>
-                            <p>Hiermit bestätige ich das mein Kind 8 Jahre oder älter ist.</p>
+                            <p class="text-sm md:text-base">Hiermit bestätige ich das mein Kind 8 Jahre oder älter ist.</p>
                         </label>
                     {/if}
             </div>

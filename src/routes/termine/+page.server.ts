@@ -5,6 +5,7 @@ import {
   generateCalendar,
   sortArrayOfWorkshops,
 } from "$lib/calendar/CalendarService";
+import { generateColor } from '$lib/utils/colorUtils';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
   const monthOffset = parseInt(url.searchParams.get("monthOffset") || "0");
@@ -21,6 +22,11 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 
   sortArrayOfWorkshops(workshops);
   formatDateFromWorkshop(workshops);
+
+  workshops.forEach((workshop: Workshop, index:number) => {
+    workshop.colorClass = `bg-${generateColor(index)}-500`;
+  });
+
 
   return { calendarArr, workshops };
 };

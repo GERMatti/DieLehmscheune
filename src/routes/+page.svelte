@@ -1,3 +1,6 @@
+<script>
+</script>
+
 <body>
 	<!-- Hero -->
 	<section class="relative">
@@ -12,10 +15,10 @@
 					Lorem Ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.
 				</p>
 				<div class="flex justify-center flex-wrap gap-6">
-					<a type="button" class="btn variant-filled" href="/kurse">
+					<a type="button" class="btn variant-filled" href="/kurse" data-sveltekit-reload>
 						Unsere Kurse
 					</a>
-					<a type="button" class="btn variant-filled-primary" href="/termine">
+					<a type="button" class="btn variant-filled-primary" href="/termine" data-sveltekit-reload>
 						Jetzt einen Kurstermin finden
 					</a>
 				</div>

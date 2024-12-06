@@ -10,6 +10,7 @@ export interface Workshop {
   categoryname: string;
   appointmentcount: number;
   appointments: Appointment[];
+  colorClass?: string; // Used for calendar
 }
 
 export interface Appointment {
