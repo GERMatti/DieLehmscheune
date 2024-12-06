@@ -67,8 +67,18 @@
 		component: 'ModalComponentFive',
 	};
 
-	import CookieBanner from '$lib/CookieBanner.svelte';
+	import CookieConsentComponent from '$lib/cookie/cookieconsent.svelte';
 
+	import type { AfterNavigate } from '@sveltejs/kit';
+	import { afterNavigate } from '$app/navigation';
+
+	afterNavigate((params: AfterNavigate) => {
+		const isNewPage = params.from?.url.pathname !== params.to?.url.pathname;
+		const elemPage = document.querySelector('#page');
+		if (isNewPage && elemPage !== null) {
+			elemPage.scrollTop = 0;
+		}
+	});
 </script>
 
 <Modal components={modalRegistry} />
@@ -127,39 +137,26 @@
 	</svelte:fragment>
 	<!-- Page Route Content -->
 	<slot />
-	<svelte:fragment slot="footer">
-		<CookieBanner />
-		<div class="flex justify-center items-center space-x-2 bg">
-			<a
-				class="btn btn-initial"
-				href="/impressum"
-			>
-				Impressum
-			</a>
-			<a
-				class="btn btn-initial"
-				href="/datenschutz"
-			>
-				Datenschutz
-			</a>
-			<a
-					class="btn btn-initial"
-					href="/agbs"
-			>
-				AGBs
-			</a>
-			<a
-					class="btn btn-initial"
-					href="/widerrufsbelehrung-und-formular"
-			>
-				Widerrufsbelehrung und -formular
-			</a>
-			<a
-					class="btn btn-initial"
-					href="/kontakt"
-			>
-				Kontakt
-			</a>
+	<svelte:fragment slot="pageFooter">
+		<div class="text-center p-4">
+			<ul class="flex flex-wrap justify-center gap-6">
+				<li class="font-bold text-sm">
+					<a href="/widerrufsbelehrung-und-formular">Widerrufsbelehrung und -formular</a>
+				</li>
+				<li class="font-bold text-sm">
+					<a href="/agbs">AGBs</a>
+				</li>
+				<li class="font-bold text-sm">
+					<a href="/impressum">Impressum</a>
+				</li>
+				<li class="font-bold text-sm">
+					<a href="/datenschutz">Datenschutzerklärung</a>
+				</li>
+				<li class="font-bold text-sm">
+					<CookieConsentComponent />
+				</li>
+			</ul>
 		</div>
 	</svelte:fragment>
+
 </AppShell>
