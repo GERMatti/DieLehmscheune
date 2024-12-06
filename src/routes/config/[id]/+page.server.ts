@@ -6,6 +6,8 @@ import { WorkshopService } from "$lib/services/WorkshopService";
 import { z } from "zod";
 import { message, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
+import {AppointmentService} from "$lib/services/AppointmentService";
+import {RegistrationService} from "$lib/services/RegistrationService";
 
 const schema = z.object({
   id: z.number(),
@@ -19,7 +21,9 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   ensureAdmin(locals);
 
   const workshopService = new WorkshopService(locals.dbconn);
-  const participants = await workshopService.getAllRegistrationsFromWorkshop(
+  const appointmentService = new AppointmentService(locals.dbconn);
+  const registrationService = new RegistrationService(locals.dbconn);
+  const participants = await registrationService.getAllRegistrationsFromWorkshop(
     Number(params.id),
   );
   const workshop = await workshopService.getWorkshopById(Number(params.id));
@@ -27,7 +31,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     return fail(404);
   }
   const categories = await workshopService.getAllCategories();
-  const appointments = await workshopService.getAllAppointmentsFromWorkshop(
+  const appointments = await appointmentService.getAllAppointmentsFromWorkshop(
     Number(params.id),
   );
 

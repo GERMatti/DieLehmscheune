@@ -2,6 +2,8 @@ import type { RequestHandler } from "./$types";
 import { json } from "@sveltejs/kit";
 import { WorkshopService } from "$lib/services/WorkshopService";
 import { ensureAdmin } from "$lib/server/auth";
+import {RegistrationService} from "$lib/services/RegistrationService";
+import {ParticipantService} from "$lib/services/ParticipantService";
 
 export const DELETE: RequestHandler = async ({ request, locals }) => {
   ensureAdmin(locals);
@@ -11,8 +13,9 @@ export const DELETE: RequestHandler = async ({ request, locals }) => {
       " from Workshop with ID: " + workshopid,
   );
 
-  const workshopService = new WorkshopService(locals.dbconn);
-  const slotCount = await workshopService.getSlotCount(
+  const registrationService = new RegistrationService(locals.dbconn);
+  const participantService = new ParticipantService(locals.dbconn);
+  const slotCount = await registrationService.getSlotCount(
     participantid,
     workshopid,
   );
@@ -21,11 +24,11 @@ export const DELETE: RequestHandler = async ({ request, locals }) => {
   }
   if (slotCount <= 1) {
     console.log("Delete Participant");
-    const statusCode = await workshopService.deleteParticipant(participantid);
+    const statusCode = await participantService.deleteParticipant(participantid);
     return json({ status: statusCode });
   } else {
     console.log("Decrease Slot");
-    const statusCode = await workshopService.decreaseSlot(
+    const statusCode = await registrationService.decreaseSlot(
       participantid,
       workshopid,
     );

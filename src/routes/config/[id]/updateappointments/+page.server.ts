@@ -2,13 +2,10 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { ensureAdmin } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
-import {
-  type Appointment,
-  WorkshopService,
-} from "$lib/services/WorkshopService";
 import { z } from "zod";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
+import {type Appointment, AppointmentService} from "$lib/services/AppointmentService";
 
 function generateFormSchema(appointmentCount: number) {
   return z.object({
@@ -25,9 +22,9 @@ function generateFormSchema(appointmentCount: number) {
 
 export const load: PageServerLoad = async ({ params, locals }) => {
   ensureAdmin(locals);
-  const workshopService = new WorkshopService(locals.dbconn);
+  const appointmentService = new AppointmentService(locals.dbconn);
 
-  const appoinments = await workshopService.getAllAppointmentsFromWorkshop(
+  const appoinments = await appointmentService.getAllAppointmentsFromWorkshop(
     Number(params.id),
   );
 
@@ -55,8 +52,8 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
 export const actions: Actions = {
   default: async ({ request, locals, params }) => {
-    const workshopService = new WorkshopService(locals.dbconn);
-    const appoinments = await workshopService.getAllAppointmentsFromWorkshop(
+    const appointmentService = new AppointmentService(locals.dbconn);
+    const appoinments = await appointmentService.getAllAppointmentsFromWorkshop(
       Number(params.id),
     );
 
@@ -79,7 +76,7 @@ export const actions: Actions = {
       }),
     );
     console.log(appointments[0].appointmentdate);
-    await workshopService.updateAppointments(appointments);
+    await appointmentService.updateAppointments(appointments);
 
     return redirect(300, `/config/${params.id}`);
   },

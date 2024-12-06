@@ -2,6 +2,8 @@ import type { RequestHandler } from "./$types";
 import { PRIVATE_ACCESS_TOKEN } from "$lib/server/paypal";
 import { json } from "@sveltejs/kit";
 import { PaypalService } from "$lib/services/PaypalService";
+import {ParticipantService} from "$lib/services/ParticipantService";
+import {RegistrationService} from "$lib/services/RegistrationService";
 
 export interface Capture {
   id: string;
@@ -51,13 +53,15 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   console.log(capture);
 
   const paypalService = new PaypalService(locals.dbconn);
-  const participantId = await paypalService.findOrCreateParticipant(
+  const participantService = new ParticipantService(locals.dbconn);
+  const registrationService = new RegistrationService(locals.dbconn);
+  const participantId = await participantService.findOrCreateParticipant(
     capture.payer.email_address,
     `${capture.payer.name.given_name} ${capture.payer.name.surname}`,
   );
   console.log("ParticipentID:", participantId);
   await paypalService.writePaypalOrderToDB(capture, participantId);
-  await paypalService.registerforWorkshop(workshopID, participantId);
+  await registrationService.registerforWorkshop(workshopID, participantId);
 
   return json(capture);
 };

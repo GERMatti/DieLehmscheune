@@ -9,6 +9,8 @@ import { z } from "zod";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { PaypalService } from "$lib/services/PaypalService";
+import {RegistrationService} from "$lib/services/RegistrationService";
+import {ParticipantService} from "$lib/services/ParticipantService";
 
 const schema = z.object({
   fullname: z.string().min(1).max(100),
@@ -36,7 +38,8 @@ export const actions: Actions = {
       return fail(400, { form });
     }
 
-    const paypalService = new PaypalService(locals.dbconn);
+    const registrationService = new RegistrationService(locals.dbconn);
+    const participantService = new ParticipantService(locals.dbconn);
     const workshopService = new WorkshopService(locals.dbconn);
     const remainingSlots: number | unknown = await workshopService
       .getRemainingAppointments(form.data.workshopId);
@@ -44,11 +47,11 @@ export const actions: Actions = {
       return json({ error: "No more slots available" }, { status: 400 });
     }
 
-    const participantId = await paypalService.findOrCreateParticipant(
+    const participantId = await participantService.findOrCreateParticipant(
       form.data.email,
       form.data.fullname,
     );
-    await paypalService.registerforWorkshop(
+    await registrationService.registerforWorkshop(
       form.data.workshopId,
       participantId,
     );

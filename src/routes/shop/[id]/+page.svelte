@@ -5,6 +5,7 @@
     import { env } from "$env/dynamic/public";
     import {getModalStore, type ModalSettings} from "@skeletonlabs/skeleton";
     import {redirect} from "@sveltejs/kit";
+    import {invalidateAll} from "$app/navigation";
 
     export let data: PageData
 
@@ -13,7 +14,8 @@
     const modalStore = getModalStore();
 
     let paypal: PayPalNamespace | null;
-    let isCheckboxChecked = !workshop.categoryname.toLowerCase().includes("kinder");
+    let isCheckboxKindChecked = !workshop.categoryname.toLowerCase().includes("kinder");
+    let isCheckboxAGBChecked = false;
 
     onMount( async () => {
         try {
@@ -39,7 +41,8 @@
                                 headers: {"Content-Type": "application/json"},
                                 body: JSON.stringify({
                                     workshopID: workshop.workshopid,
-                                    isCheckboxChecked: isCheckboxChecked,
+                                    isCheckboxKindChecked: isCheckboxKindChecked,
+                                    isCheckboxAGBChecked: isCheckboxAGBChecked,
                                 }),
                             });
 
@@ -67,17 +70,28 @@
 
                         const details = await response.json();
                         modalStore.trigger(modalSuccess);
-                        await redirect(200, "/shop/" + workshop.workshopid);
+                        await invalidateAll();
                     },
                     onError: function (err) {
+                        const agbCheckbox = document.querySelector('#agb-checkbox');
+                        const kindCheckbox = document.querySelector('#kind-checkbox');
                         if (err.toString().includes("No more slots available")) {
                             modalStore.trigger(modalFull);
                         } else if (err.toString().includes("Please accept the terms and conditions")) {
                             modalStore.trigger(modalNotAccepted);
+                            if(agbCheckbox) {
+                                agbCheckbox.classList.add('border-2');
+                                agbCheckbox.classList.add('border-red-500');
+                            }
+                            if(kindCheckbox){
+                            kindCheckbox.classList.add('border-2');
+                            kindCheckbox.classList.add('border-red-500');
+                            }
                         } else {
                             modalStore.trigger(modalError);
+                            console.log("dedede", agbCheckbox);
                         }
-                        redirect(300, "/shop/" + workshop.workshopid);
+                        invalidateAll();
                     },
                 }).render("#paypal-button-container");
             } catch (error) {
@@ -90,6 +104,7 @@
         // Data
         component: 'ModalComponentSix',
     };
+
     const modalError: ModalSettings = {
         type: 'component',
         // Data
@@ -109,9 +124,9 @@
 </script>
 
 <div class="flex flex-col md:flex-row justify-center items-center h-auto md:h-1/2 max-md:mt-16 max-md:mx-8 md:my-80">
-    <div class="max-w-7xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 h-full -mt-5 xl:-mt-8 pb-10 bg-gray-100 p-4 rounded-xl">
+    <div class="max-w-7xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 h-full -mt-5 xl:-mt-8 pb-28 bg-gray-100 pl-4 pt-4 rounded-xl">
         <div class="h-full xl:col-span-2">
-            <img class="w-full h-full object-cover" src="/images/bowl.jpeg" alt="KursBild">
+            <img class="w-full h-full object-cover rounded-xl" src="/images/bowl.jpeg" alt="KursBild">
         </div>
         <div class="h-full w-full md:col-span-2 xl:col-span-3 xl:p-14 flex flex-col gap-6 justify-center">
             <div class="flex flex-col gap-5">
@@ -121,10 +136,15 @@
                 <p class="text-sm md:text-base text-gray-600">{workshop.description}</p>
                 <p class="text-sm md:text-base text-red-500">Beim onlinekauf über Paypal fallen extra Gebühren an für die Paypal Nutzung!</p>
                 <div class="space-y-2">
+                    <label class="flex items-center space-x-2">
+                        <input id="agb-checkbox" class="checkbox" type="checkbox" on:change="{() => { isCheckboxAGBChecked = !isCheckboxAGBChecked; }}"/>
+                        <p class="text-sm">Hiermit bestätige ich ich die AGBs gelesen habe und diese akzeptiere.</p>
+                    </label>
                     {#if workshop.categoryname.toLowerCase().includes("kinder")}
+                        <hr class="opacity-0">
                         <label class="flex items-center space-x-2">
-                            <input class="checkbox" type="checkbox" on:change="{() => { isCheckboxChecked = !isCheckboxChecked; }}"/>
-                            <p class="text-sm md:text-base">Hiermit bestätige ich das mein Kind 8 Jahre oder älter ist.</p>
+                            <input id="kind-checkbox" class="checkbox" type="checkbox" on:change="{() => { isCheckboxKindChecked = !isCheckboxKindChecked; }}"/>
+                            <p class="text-sm">Hiermit bestätige ich das mein Kind 8 Jahre oder älter ist.</p>
                         </label>
                     {/if}
             </div>

@@ -13,7 +13,7 @@
         </svg>
     </div>
     <div class="alert-message">
-        <h3 class="h3">Bitte akzeptiren Sie zuerst die Kaufbedingung</h3>
+        <h3 class="h3">Bitte akzeptiren Sie zuerst die AGBs</h3>
         <p class="text-xl">Alle Kinder - Workshops sind ab 8 Jahren!</p>
     </div>
 </aside>

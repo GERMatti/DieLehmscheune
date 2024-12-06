@@ -18,7 +18,7 @@
     let { form, enhance, errors, message} = superForm(data.form)
 
     async function deleteParticipant() {
-        const response = await fetch(`/api/workshops/`, {
+        const response = await fetch(`/api/workshops/deleteParticipant`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

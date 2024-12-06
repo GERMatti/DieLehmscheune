@@ -3,12 +3,12 @@ import type { Actions, PageServerLoad } from "./$types";
 import { ensureAdmin } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import {
-  type Appointment,
   WorkshopService,
 } from "$lib/services/WorkshopService";
 import { z } from "zod";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
+import {type Appointment, AppointmentService} from "$lib/services/AppointmentService";
 
 function generateFormSchema(appointmentCount: number) {
   return z.object({
@@ -53,6 +53,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 export const actions: Actions = {
   default: async ({ request, locals, params }) => {
     const workshopService = new WorkshopService(locals.dbconn);
+    const appointmentService = new AppointmentService(locals.dbconn);
     const workshopCategoryId = await workshopService.getWorkshopCatoegoryById(
       Number(params.id),
     );
@@ -82,7 +83,7 @@ export const actions: Actions = {
         duration: appointment.duration,
       }),
     );
-    await workshopService.createAppointments(appointments);
+    await appointmentService.createAppointments(appointments);
 
     redirect(300, `/config/${params.id}`);
   },

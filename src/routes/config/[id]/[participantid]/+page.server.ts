@@ -8,6 +8,7 @@ import {
 import { z } from "zod";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
+import {ParticipantService} from "$lib/services/ParticipantService";
 
 const schema = z.object({
   participantid: z.number().min(1),
@@ -19,8 +20,8 @@ const schema = z.object({
 
 export const load: PageServerLoad = async ({ params, locals }) => {
   ensureAdmin(locals);
-  const workshopService = new WorkshopService(locals.dbconn);
-  const participant = await workshopService.getParticipantById(
+  const participantService = new ParticipantService(locals.dbconn);
+  const participant = await participantService.getParticipantById(
     Number(params.participantid),
   );
 
@@ -48,8 +49,8 @@ export const actions: Actions = {
       return fail(400, { form });
     }
 
-    const workshopService = new WorkshopService(locals.dbconn);
-    const participant = await workshopService.getParticipantById(
+    const participantService = new ParticipantService(locals.dbconn);
+    const participant = await participantService.getParticipantById(
       form.data.participantid,
     );
     console.log(participant);
@@ -66,7 +67,7 @@ export const actions: Actions = {
     if (hasChanges) {
       console.log("Changes detected");
       // Update the workshop in the database
-      const statuscode = await workshopService.updateParticipant({
+      const statuscode = await participantService.updateParticipant({
         ...participant,
         fullname: form.data.fullname,
         email: form.data.email,

@@ -51,8 +51,8 @@ async function createOrder() {
 }
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { workshopID, isCheckboxChecked } = await request.json();
-  if (!isCheckboxChecked) {
+  const { workshopID, isCheckboxKindChecked, isCheckboxAGBChecked } = await request.json();
+  if (!isCheckboxKindChecked || !isCheckboxAGBChecked) {
     return json({ error: "Please accept the terms and conditions" }, {
       status: 400,
     });

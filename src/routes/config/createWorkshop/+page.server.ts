@@ -3,12 +3,12 @@ import type { Actions, PageServerLoad } from "./$types";
 import { ensureAdmin } from "$lib/server/auth";
 import { error, fail, redirect } from "@sveltejs/kit";
 import {
-  type Appointment,
   WorkshopService,
 } from "$lib/services/WorkshopService";
 import { z } from "zod";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
+import {type Appointment, AppointmentService} from "$lib/services/AppointmentService";
 
 const schema = z.object({
   title: z.string(),
@@ -46,6 +46,7 @@ export const actions: Actions = {
     console.log(form);
 
     const workshopService = new WorkshopService(locals.dbconn);
+    const appointmentService = new AppointmentService(locals.dbconn);
     const categories = await workshopService.getAllCategories();
     const categoryMap = new Map(
       categories.map(
@@ -81,7 +82,7 @@ export const actions: Actions = {
       duration: 120,
     }));
 
-    await workshopService.createAppointments(defaultAppointments);
+    await appointmentService.createAppointments(defaultAppointments);
 
     return redirect(300, "/config/" + workshopId + "/updateappointments");
   },
