@@ -124,7 +124,7 @@
 </script>
 
 <div class="flex flex-col md:flex-row justify-center items-center h-auto md:h-1/2 max-md:mt-16 max-md:mx-8 md:my-80">
-    <div class="max-w-7xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 h-full -mt-5 xl:-mt-8 pb-28 bg-gray-100 pl-4 pt-4 rounded-xl">
+    <div class="max-w-7xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 h-full -mt-5 xl:-mt-8 pb-28 bg-gray-100 md:pl-4 md:pt-4 max-sm:p-4 rounded-xl">
         <div class="h-full xl:col-span-2">
             <img class="w-full h-full object-cover rounded-xl" src="/images/bowl.jpeg" alt="KursBild">
         </div>

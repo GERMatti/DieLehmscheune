@@ -197,4 +197,4 @@
             </div>
         </div>
 </section>
-<div class="hidden bg-purple-500 border-gray-500 bg-amber-500 bg-sky-500 bg-emerald-500"></div>
+<div class="hidden bg-purple-500 bg-gray-500 bg-amber-500 bg-sky-500 bg-emerald-500"></div>

@@ -70,9 +70,7 @@
 							<img class="h-auto max-w-full rounded-lg" src="/images/entenTasse.jpeg" alt="" />
 						</div>
 					</div>
-
 				</section>
-
 			</div>
 		</div>
 	</section>
