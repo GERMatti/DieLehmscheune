@@ -7,7 +7,7 @@
     <p><strong>Widerrufsrecht</strong><br>Sie haben das Recht, binnen <strong>vierzehn Tagen</strong> ohne Angabe von Gründen diesen Vertrag zu
         widerrufen.<br>Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter
         Dritter, der nicht der Beförderer ist, die letzte Ware in Besitz genommen haben bzw. hat. Um Ihr Widerrufsrecht
-        auszuüben, müssen Sie mir (Frau Tanja Bünk, Lückingstrße 17, 53127 Bonn, Telefonnummer: +49 228 94772631, E-Mail-Adresse: dielehmscheune@gmail.com) mittels einer eindeutigen Erklärung (z.B. ein mit der Post versandter
+        auszuüben, müssen Sie mir (Frau Tanja Bünk, Lückingstraße 17, 53127 Bonn, Telefonnummer: +49 228 94772631, E-Mail-Adresse: dielehmscheune@gmail.com) mittels einer eindeutigen Erklärung (z.B. ein mit der Post versandter
         Brief oder E-Mail) über Ihren Entschluss, diesen Vertrag zu widerrufen, informieren.<br>Nutzen Sie dafür ein
         Widerrufsformular, das jedoch nicht vorgeschrieben ist. Zur Wahrung der Widerrufsfrist reicht es aus, dass Sie
         die Mitteilung über die Ausübung des Widerrufsrechts vor Ablauf der Widerrufsfrist absenden.</p>
@@ -28,6 +28,10 @@
         der Beschaffenheit, Eigenschaften und Funktionsweise der Waren nicht notwendigen Umgang mit ihnen zurückzuführen
         ist.</p>
         <br>
-    <p class="underline font-bold"><a href="/uploads/formular.pdf" target="_blank"
-          rel="noopener noreferrer">Muster-Widerrufsformular herunterladen</a></p>
+    <div class="flex max-sm:flex-col max-sm:space-y-4 max-sm:mb-4 md:space-x-4">
+        <a class="btn variant-ringed hover:variant-filled md:w-full" href="/uploads/Widerrufsformular.docx"
+              rel="noopener noreferrer">Muster-Widerrufsformular MS-Word</a>
+        <a class="btn variant-ringed hover:variant-filled md:w-full" href="/uploads/Widerrufsformular.pdf"
+           rel="noopener noreferrer">Muster-Widerrufsformular PDF</a>
+    </div>
 </div>

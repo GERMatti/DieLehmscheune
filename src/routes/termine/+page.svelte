@@ -2,7 +2,7 @@
     import type {Appointment, Workshop} from "$lib/services/WorkshopService";
     import type { PageData } from "./$types"
     import { popup } from "@skeletonlabs/skeleton";
-    import type {PopupSettings} from "@skeletonlabs/skeleton";
+    import type {PopupSettings, TabGroup, Tab, TabAnchor} from "@skeletonlabs/skeleton";
     import {generateColor} from "$lib/utils/colorUtils";
 
     export let data: PageData
@@ -89,12 +89,13 @@
         }
     }
     // ++++++++++++++++++++++++++++++++++++
+    let tabSet: number = 0;
 </script>
 
 <section class="relative">
         <div class="w-full max-w-7xl mx-auto px-2 lg:px-8">
             <div class="grid grid-cols-12 gap-8 max-w-4xl mx-auto xl:max-w-full">
-                <div class="col-span-12 xl:col-span-5 mt-2 max-sm:mt-8">
+                <div class="col-span-12 xl:col-span-5 mt-8 max-sm:mx-4">
                     <h2 class="text-3xl leading-tight text-gray-900 mb-1.5">Bevorstehende Workshops</h2>
                     <p class="text-lg text-gray-600 mb-8">Verpasse jetzt keinen mehr!</p>
                     <div class="flex gap-5 flex-col">
@@ -128,7 +129,7 @@
                         <!-- Side event end -->
                     </div>
                 </div>
-                <div class="max-md:mt-8 md:mt-28 col-span-12 xl:col-span-7 px-2.5 py-5 sm:p-8 bg-gradient-to-b from-white/25 to-white xl:bg-white rounded-2xl max-xl:row-start-1">
+                <div class=" max-sm:mx-2 max-md:mt-8 md:mt-32 col-span-12 xl:col-span-7 px-2.5 py-5 max-sm:p-2 bg-gradient-to-b from-white/25 to-white xl:bg-white rounded-2xl max-xl:row-start-1">
                     <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-5">
                         <div class="flex items-center space-x-4">
                             <h5 class="text-xl leading-8 font-semibold text-gray-900">{calendarArr.monthName } {calendarArr.year}</h5>
