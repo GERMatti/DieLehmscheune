@@ -52,4 +52,4 @@ jobs:
           server: https://dielehmscheune.de
           app: 'www'
           token: '${{ secrets.APP_TOKEN }}'
-          image: 'ghcr.io/GERMatti/DieLehmscheune:main'
+          image: 'ghcr.io/germatti/dielehmscheune:main'
