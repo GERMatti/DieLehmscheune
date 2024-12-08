@@ -46,12 +46,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            PUBLIC_HELLO=world
       - name: Deploy on CapRover
         uses: caprover/deploy-from-github@v1.1.2
         with:
-          server: https://dielehmscheune.de
+          server: http://dielehmscheune.de
           app: 'www'
           token: '${{ secrets.APP_TOKEN }}'
           image: 'ghcr.io/GERMatti/DieLehmscheune:main'
