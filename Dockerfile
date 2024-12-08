@@ -6,6 +6,7 @@ ARG TZ=Europe/Berlin
 ARG PUBLIC_HELLO
 
 COPY . /app
+ENV PUBLIC_API_CLIENT_ID="AQWV6yjg8ORradM-qlGCQomOIXTDCwHDM9I5Ru50QscBmFXldD6nxVC2oaKBhIbincjUeYibvSd_jPzc"
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl tzdata \
     && cp /usr/share/zoneinfo/$TZ /etc/localtime \
