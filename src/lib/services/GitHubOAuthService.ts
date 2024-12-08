@@ -1,5 +1,5 @@
 import type { PoolClient } from "pg";
-import { randomBytes } from "crypto";
+import { randomBytes } from "node:crypto";
 
 export class GitHubOAuthService {
   private dbClient: PoolClient;

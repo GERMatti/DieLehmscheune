@@ -24,22 +24,6 @@ export default {
             name: "vintage",
             enhancements: true,
           },
-          {
-            name: "skeleton",
-            enhancements: true,
-          },
-          {
-            name: "modern",
-            enhancements: true,
-          },
-          {
-            name: "seafoam",
-            enhancements: true,
-          },
-          {
-            name: "sahara",
-            enhancements: true,
-          },
         ],
       },
     }),
