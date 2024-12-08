@@ -49,7 +49,7 @@ jobs:
       - name: Deploy on CapRover
         uses: caprover/deploy-from-github@v1.1.2
         with:
-          server: http://dielehmscheune.de
+          server: https://dielehmscheune.de
           app: 'www'
           token: '${{ secrets.APP_TOKEN }}'
           image: 'ghcr.io/GERMatti/DieLehmscheune:main'
